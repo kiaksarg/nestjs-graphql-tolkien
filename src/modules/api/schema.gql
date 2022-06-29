@@ -1,0 +1,509 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  username: String!
+  fullName: String!
+  email: String!
+  bio: String
+  avatar: String
+  publicEmail: String
+  address: String
+  website: String
+  youtube: String
+  socialMedia1: String
+  socialMedia2: String
+  isSuperUser: Boolean!
+  status: UserStatusEnum!
+}
+
+enum UserStatusEnum {
+  Active
+  Blocked
+  Inactive
+}
+
+type UserList {
+  items: [User!]!
+  totalItems: Int!
+}
+
+type Battle {
+  id: ID!
+  name: String!
+  text: String!
+  lotrPageId: String!
+  lotrUrl: String
+  locationsText: String
+  locations: [Location]
+  conflict: String
+  outcome: String
+  date: String
+  active: Boolean!
+}
+
+type CharacterList {
+  items: [Character]
+  totalItems: Int!
+}
+
+type Culture {
+  id: ID!
+  name: String!
+  text: String!
+  lotrPageId: String!
+  lotrUrl: String
+  charactersText: String
+  characters(options: CharacterListQueryInput!): CharacterList
+  distinctions: String
+  hairColor: String
+  height: String
+  languages: String
+  lifespan: String
+  locationText: String
+  otherNames: String
+  origins: String
+  skinColor: String
+  locations: [Location]
+  active: Boolean!
+}
+
+input CharacterListQueryInput {
+  skip: Int
+  take: Int!
+
+  """Works only with sort by id"""
+  after: ID
+
+  """Works only with sort order by id"""
+  before: ID
+  operator: OperatorEnum
+  sort: CharacterSortInput
+  filter: CharacterFilterInput
+
+  """a random text to reset the request."""
+  timestamp: String
+}
+
+enum OperatorEnum {
+  And
+  Or
+}
+
+input CharacterSortInput {
+  id: SortOrderEnum
+  name: SortOrderEnum
+  createdAt: DateOperatorsInput
+  updatedAt: DateOperatorsInput
+}
+
+enum SortOrderEnum {
+  ASC
+  DESC
+}
+
+input DateOperatorsInput {
+  eq: DateTime
+  before: DateTime
+  after: DateTime
+  between: DateRangeInput
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+input DateRangeInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+input CharacterFilterInput {
+  id: IdOperatorsInput
+  active: Boolean
+  name: StringOperatorsInput
+  lotrPageId: StringOperatorsInput
+  text: StringOperatorsInput
+  gender: GenderEnum
+  weapon: StringOperatorsInput
+  birth: StringOperatorsInput
+  death: StringOperatorsInput
+  eyes: StringOperatorsInput
+  hairColor: StringOperatorsInput
+  height: StringOperatorsInput
+  otherNames: StringOperatorsInput
+  rule: StringOperatorsInput
+  titles: StringOperatorsInput
+}
+
+input IdOperatorsInput {
+  eq: ID
+  notEq: ID
+  in: [ID!]
+  notIn: [ID!]
+}
+
+input StringOperatorsInput {
+  eq: String
+  notEq: String
+  contains: String
+  notContains: String
+  search: String
+  in: [String!]
+  notIn: [String!]
+  regex: String
+}
+
+enum GenderEnum {
+  male
+  female
+}
+
+type Race {
+  id: ID!
+  name: String!
+  text: String!
+  lotrPageId: String!
+  lotrUrl: String
+  charactersText: String
+  characters(options: CharacterListQueryInput!): CharacterList
+  distinctions: String
+  hairColor: String
+  height: String
+  languages: String
+  lifespan: String
+  otherNames: String
+  origins: String
+  skinColor: String
+  locationText: String
+  locations: [Location]
+  active: Boolean!
+}
+
+type Location {
+  id: ID!
+  name: String!
+  text: String!
+  lotrPageId: String!
+  lotrUrl: String
+  capitalText: String
+  cultureText: String
+  description: String
+  events: String
+  foundedOrBuilt: String
+  governanceText: String
+  lifespan: String
+  majorTownsText: String
+  otherNames: String
+  position: String
+  regionsText: String
+  type: String
+  cultures: [Culture]
+  characters(options: CharacterListQueryInput!): CharacterList
+  governance: [Character]
+  capitals: [Location]
+  majorTowns: [Location]
+  regions: [Location]
+  races: [Race]
+  artefacts: [Artefact]
+  battles: [Battle]
+  active: Boolean!
+}
+
+type Artefact {
+  id: ID!
+  name: String!
+  text: String!
+  lotrPageId: String!
+  lotrUrl: String
+  charactersText: String
+  appearance: String
+  locationsText: String
+  locations: [Location]
+  characters: [Character]
+  otherNames: String
+  usage: String
+  active: Boolean!
+}
+
+type Quote {
+  id: ID!
+  text: String!
+  source: String!
+  character: Character!
+  active: Boolean!
+}
+
+type Character {
+  id: ID!
+  name: String!
+  text: String!
+  lotrPageId: String!
+  lotrUrl: String
+  gender: GenderEnum!
+  weapon: String
+  birth: String
+  death: String
+  eyes: String
+  hairColor: String
+  height: String
+  otherNames: String
+  rule: String
+  titles: String
+  cultures: [Culture]
+  spouses: [Character]
+  quotes: [Quote]
+  races: [Race]
+  locations: [Location]
+  artefacts: [Artefact]
+  active: Boolean!
+}
+
+type CultureList {
+  items: [Culture]
+  totalItems: Int!
+}
+
+type LocationList {
+  items: [Location]
+  totalItems: Int!
+}
+
+type RaceList {
+  items: [Race]
+  totalItems: Int!
+}
+
+type ArtefactList {
+  items: [Artefact]
+  totalItems: Int!
+}
+
+type BattleList {
+  items: [Battle]
+  totalItems: Int!
+}
+
+type Query {
+  users: UserList!
+  user(username: String!): User!
+  sayHello: String!
+  character(id: ID!): Character!
+  characters(options: CharacterListQueryInput!): CharacterList!
+  culture(id: ID!): Culture!
+  cultures(options: CultureListQueryInput!): CultureList!
+  location(id: ID!): Location!
+  locations(options: LocationListQueryInput!): LocationList!
+  race(id: ID!): Race!
+  races(options: RaceListQueryInput!): RaceList!
+  artefact(id: ID!): Artefact!
+  artefacts(options: ArtefactListQueryInput!): ArtefactList!
+  battle(id: ID!): Battle!
+  battles(options: BattleListQueryInput!): BattleList!
+}
+
+input CultureListQueryInput {
+  skip: Int
+  take: Int!
+
+  """Works only with sort by id"""
+  after: ID
+
+  """Works only with sort order by id"""
+  before: ID
+  operator: OperatorEnum
+  sort: CultureSortInput
+  filter: CultureFilterInput
+
+  """a random text to reset the request."""
+  timestamp: String
+}
+
+input CultureSortInput {
+  id: SortOrderEnum
+  name: SortOrderEnum
+  createdAt: DateOperatorsInput
+  updatedAt: DateOperatorsInput
+}
+
+input CultureFilterInput {
+  id: IdOperatorsInput
+  active: Boolean
+  name: StringOperatorsInput
+  text: StringOperatorsInput
+  lotrPageId: StringOperatorsInput
+  charactersText: StringOperatorsInput
+  distinctions: StringOperatorsInput
+  hairColor: StringOperatorsInput
+  height: StringOperatorsInput
+  languages: StringOperatorsInput
+  lifespan: StringOperatorsInput
+  locationText: StringOperatorsInput
+  origins: StringOperatorsInput
+  skinColor: StringOperatorsInput
+  otherNames: StringOperatorsInput
+}
+
+input LocationListQueryInput {
+  skip: Int
+  take: Int!
+
+  """Works only with sort by id"""
+  after: ID
+
+  """Works only with sort order by id"""
+  before: ID
+  operator: OperatorEnum
+  sort: LocationSortInput
+  filter: LocationFilterInput
+
+  """a random text to reset the request."""
+  timestamp: String
+}
+
+input LocationSortInput {
+  id: SortOrderEnum
+  name: SortOrderEnum
+  type: SortOrderEnum
+  lifespan: SortOrderEnum
+  createdAt: DateOperatorsInput
+  updatedAt: DateOperatorsInput
+}
+
+input LocationFilterInput {
+  id: IdOperatorsInput
+  active: Boolean
+  name: StringOperatorsInput
+  text: StringOperatorsInput
+  lotrPageId: StringOperatorsInput
+  capitalText: StringOperatorsInput
+  cultureText: StringOperatorsInput
+  description: StringOperatorsInput
+  events: StringOperatorsInput
+  foundedOrBuilt: StringOperatorsInput
+  governanceText: StringOperatorsInput
+  lifespan: StringOperatorsInput
+  majorTownsText: StringOperatorsInput
+  otherNames: StringOperatorsInput
+  position: StringOperatorsInput
+  regionsText: StringOperatorsInput
+  type: StringOperatorsInput
+}
+
+input RaceListQueryInput {
+  skip: Int
+  take: Int!
+
+  """Works only with sort by id"""
+  after: ID
+
+  """Works only with sort order by id"""
+  before: ID
+  operator: OperatorEnum
+  sort: RaceSortInput
+  filter: RaceFilterInput
+
+  """a random text to reset the request."""
+  timestamp: String
+}
+
+input RaceSortInput {
+  id: SortOrderEnum
+  name: SortOrderEnum
+  createdAt: DateOperatorsInput
+  updatedAt: DateOperatorsInput
+}
+
+input RaceFilterInput {
+  id: IdOperatorsInput
+  active: Boolean
+  name: StringOperatorsInput
+  text: StringOperatorsInput
+  lotrPageId: StringOperatorsInput
+  charactersText: StringOperatorsInput
+  distinctions: StringOperatorsInput
+  hairColor: StringOperatorsInput
+  height: StringOperatorsInput
+  languages: StringOperatorsInput
+  lifespan: StringOperatorsInput
+  locationText: StringOperatorsInput
+  origins: StringOperatorsInput
+  skinColor: StringOperatorsInput
+  otherNames: StringOperatorsInput
+}
+
+input ArtefactListQueryInput {
+  skip: Int
+  take: Int!
+
+  """Works only with sort by id"""
+  after: ID
+
+  """Works only with sort order by id"""
+  before: ID
+  operator: OperatorEnum
+  sort: ArtefactSortInput
+  filter: ArtefactFilterInput
+
+  """a random text to reset the request."""
+  timestamp: String
+}
+
+input ArtefactSortInput {
+  id: SortOrderEnum
+  name: SortOrderEnum
+  createdAt: DateOperatorsInput
+  updatedAt: DateOperatorsInput
+}
+
+input ArtefactFilterInput {
+  id: IdOperatorsInput
+  active: Boolean
+  name: StringOperatorsInput
+  text: StringOperatorsInput
+  lotrPageId: StringOperatorsInput
+  charactersText: StringOperatorsInput
+  locationsText: StringOperatorsInput
+  appearance: StringOperatorsInput
+  usage: StringOperatorsInput
+  otherNames: StringOperatorsInput
+}
+
+input BattleListQueryInput {
+  skip: Int
+  take: Int!
+
+  """Works only with sort by id"""
+  after: ID
+
+  """Works only with sort order by id"""
+  before: ID
+  operator: OperatorEnum
+  sort: BattleSortInput
+  filter: BattleFilterInput
+
+  """a random text to reset the request."""
+  timestamp: String
+}
+
+input BattleSortInput {
+  id: SortOrderEnum
+  name: SortOrderEnum
+  createdAt: DateOperatorsInput
+  updatedAt: DateOperatorsInput
+}
+
+input BattleFilterInput {
+  id: IdOperatorsInput
+  active: Boolean
+  name: StringOperatorsInput
+  text: StringOperatorsInput
+  lotrPageId: StringOperatorsInput
+  locationsText: StringOperatorsInput
+  conflict: StringOperatorsInput
+  outcome: StringOperatorsInput
+  date: StringOperatorsInput
+}
